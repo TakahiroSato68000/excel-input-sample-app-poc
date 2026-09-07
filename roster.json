@@ -1,6 +1,6 @@
 [
-  {"employee_number": "001", "employee_name": "山田 太郎"},
-  {"employee_number": "002", "employee_name": "鈴木 花子"},
-  {"employee_number": "003", "employee_name": "佐藤 次郎"},
-  {"employee_number": "004", "employee_name": "田中 美咲"}
+  { "employee_number": "001", "employee_name": "山田 太郎" },
+  { "employee_number": "002", "employee_name": "鈴木 花子" },
+  { "employee_number": "003", "employee_name": "佐藤 次郎" }
 ]
+
