@@ -88,9 +88,9 @@ function renderEntries(items) {
       <td>${escapeHtml(item.date)}</td>
       <td>${escapeHtml(item.employee_number)}</td>
       <td>${escapeHtml(item.employee_name)}</td>
-      <td>${escapeHtml(item.reason)}</td>
       <td>${escapeHtml(item.start_time)}</td>
       <td>${escapeHtml(item.end_time)}</td>
+      <td>${escapeHtml(item.reason)}</td>
       <td>${escapeHtml(item.remarks)}</td>
     `;
     tbody.appendChild(tr);

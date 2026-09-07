@@ -20,15 +20,15 @@ HEADER_ROW = [
     "日付",
     "社員番号",
     "氏名",
-    "理由",
     "開始時刻",
     "終了時刻",
+    "理由",
     "備考",
 ]
 
 
 def template_path(base_dir: Path) -> Path:
-    return base_dir / "template.xlsx"
+    return base_dir / "template" / "template.xlsx"
 
 
 def backup_dir(base_dir: Path) -> Path:
@@ -54,30 +54,25 @@ def ensure_output_backup(base_dir: Path, output_path: Path) -> None:
 
 
 def fill_data_sheet(workbook: Workbook, records: list[dict[str, str]]) -> None:
-    sheet = workbook["Data"] if "Data" in workbook.sheetnames else workbook.active
-    if sheet.max_row > 1:
-        sheet.delete_rows(2, sheet.max_row - 1)
-    if sheet.max_row == 1 and sheet["A1"].value is None:
-        for index, title in enumerate(HEADER_ROW, start=1):
-            sheet.cell(row=1, column=index, value=title)
+    sheet = workbook["Data"]
+
+    for row_index in range(2, sheet.max_row + 1):
+        for column_index in range(1, len(HEADER_ROW) + 1):
+            sheet.cell(row=row_index, column=column_index).value = None
     for row_index, record in enumerate(records, start=2):
         sheet.cell(row=row_index, column=1, value=record["date"])
         sheet.cell(row=row_index, column=2, value=record["employee_number"])
         sheet.cell(row=row_index, column=3, value=record["employee_name"])
-        sheet.cell(row=row_index, column=4, value=record["reason"])
-        sheet.cell(row=row_index, column=5, value=record["start_time"])
-        sheet.cell(row=row_index, column=6, value=record["end_time"])
+        sheet.cell(row=row_index, column=4, value=record["start_time"])
+        sheet.cell(row=row_index, column=5, value=record["end_time"])
+        sheet.cell(row=row_index, column=6, value=record["reason"])
         sheet.cell(row=row_index, column=7, value=record["remarks"])
-
-    print_sheet = workbook["Print"] if "Print" in workbook.sheetnames else workbook.create_sheet("Print")
-    print_sheet["A1"] = "印刷用シート"
-    print_sheet["A2"] = "Data シートを参照して出力しています。"
-
 
 def create_template_if_missing(base_dir: Path) -> None:
     path = template_path(base_dir)
     if path.exists():
         return
+    path.parent.mkdir(parents=True, exist_ok=True)
     workbook = Workbook()
     data_sheet = workbook.active
     data_sheet.title = "Data"
